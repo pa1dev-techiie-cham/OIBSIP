@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+.add-task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  margin-left: 10px;
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.lists {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list {
+  flex-grow: 1;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+.complete-button, .delete-button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.complete-button {
+  background-color: #28a745;
+  color: white;
+  margin-right: 5px;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const taskInput = document.getElementById('taskInput');
+  const addButton = document.getElementById('addButton');
+  const pendingList = document.getElementById('pendingList');
+  const completedList = document.getElementById('completedList');
+
+  addButton.addEventListener('click', function () {
+    const taskText = taskInput.value.trim();
+    if (taskText !== '') {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${taskText}</span>
+        <button class="complete-button">Complete</button>
+        <button class="delete-button">Delete</button>
+      `;
+      pendingList.appendChild(li);
+      taskInput.value = '';
+
+      const completeButton = li.querySelector('.complete-button');
+      const deleteButton = li.querySelector('.delete-button');
+
+      completeButton.addEventListener('click', function () {
+        completedList.appendChild(li);
+        li.removeChild(completeButton);
+      });
+
+      deleteButton.addEventListener('click', function () {
+        if (li.parentNode === pendingList) {
+          pendingList.removeChild(li);
+        } else {
+          completedList.removeChild(li);
+        }
+      });
+    }
+  });
+});
+  </script>
+  <title>To-Do App</title>
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do App</h1>
+    <div class="add-task">
+      <input type="text" id="taskInput" placeholder="Enter a new task">
+      <button id="addButton">Add Task</button>
+    </div>
+    <div class="lists">
+      <div class="list">
+        <h2>Pending Tasks</h2>
+        <ul id="pendingList"></ul>
+      </div>
+      <div class="list">
+        <h2>Completed Tasks</h2>
+        <ul id="completedList"></ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
